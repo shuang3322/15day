@@ -4,8 +4,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String,Date,ForeignKey,Table
 from sqlalchemy.orm import relationship,sessionmaker
-engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb?charset=utf8",echo = True)
-# engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb?charset=utf8")
+# engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb?charset=utf8",echo = True)
+engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb?charset=utf8")
 
 Base = declarative_base() #生成orm基类
 student_m2m_Class = Table('student_m2m_Class', Base.metadata,
@@ -22,6 +22,9 @@ class User_lab(Base):
     role_id = Column(Integer, ForeignKey("role.id"))
     role_key = relationship("Role", foreign_keys=[role_id])
     Class = relationship('Class',secondary=student_m2m_Class,backref='user')
+    def __repr__(self):
+        return "<User(name='%s',  password='%s')>" % (
+            self.name, self.password)
 class Role(Base):
     '''基础角色表'''
     __tablename__ = 'role'  # 表名
