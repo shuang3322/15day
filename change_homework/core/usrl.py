@@ -38,7 +38,10 @@ class UI_dict():#界面
 
 
 class Features():
+    def __init__(self,id):
+        self.id= id
     def Pay_homework(self):
+        print("\033[1;31;40m用户id：%s \033[0m" % (self.id))
         print("Features:","Pay_homework")
 
     def Check_the_grade(self):
