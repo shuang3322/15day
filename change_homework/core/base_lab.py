@@ -1,9 +1,10 @@
 #! /usr/bin/env python3
 # -*- coding:utf-8 -*-
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine,MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String,Date,ForeignKey,Table
 from sqlalchemy.orm import relationship,sessionmaker
+
 # engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb?charset=utf8",echo = True)
 engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb?charset=utf8")
 
@@ -61,6 +62,4 @@ class Mark(Base):
     student_id = Column(Integer,ForeignKey("user.id"))
     homework_id = Column(Integer,ForeignKey("homework.id"))
 Base.metadata.create_all(engine)  # 创建表结构
-
-#
 #
