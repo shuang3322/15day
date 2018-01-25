@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String,Date,ForeignKey,Table
 from sqlalchemy.orm import relationship,sessionmaker
 # engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb?charset=utf8",echo = True)
+# engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb?charset=utf8")
 engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb?charset=utf8")
 
 Base = declarative_base() #生成orm基类
