@@ -15,10 +15,10 @@ class login():#账户密码确定
             Session_class = sessionmaker(bind=base_lab.engine)  # 创建与数据库的会话session class ,注意,这里返回给session的是个class,不是实例
             Session = Session_class()
             my_user = Session.query(base_lab.User_lab).filter_by(name=self.name).filter_by(password=self.passwd).first()
-            return my_user.role_key.role_name,my_user.id
+            return my_user.role_key.role_name
         except BaseException as Ever:
             print(Ever)
-            return None,None
+            return None
 class UI_dict():#界面
     def __init__(self,role):
         self.studet_dict={
@@ -38,31 +38,23 @@ class UI_dict():#界面
 
 
 class Features():
-    def __init__(self,id):
-        self.id= id
     def Pay_homework(self):
-        print("\033[1;31;40m用户id：%s \033[0m" % (self.id))
-
         print("Features:","Pay_homework")
 
     def Check_the_grade(self):
-        #查看成绩
         print("Features:","Check_the_grade")
 
     def Management_class(self):
-        #管理班级
         print("Features:","Management_class")
 
     def Add_class_record(self):
-        #新增上课记录
         print("Features:","Add_class_record")
 
     def Change_the_grade(self):
-        #批改作业
         print("Features:","Change_the_grade")
 
-test = login("shuang1","123456")
-s,my_id =test.return_levele()
+test = login("shuang","123456")
+s =str(test.return_levele())
 # print("s",s,type(s))
 ui = UI_dict(s)
 ui_dict = ui.return_role_dict()
@@ -70,7 +62,7 @@ for key,item in ui_dict.items():
      print("**",key,"**",)
      # print("key_:",key,"<======>","item_:",item)
 init_Features = input("输入功能").strip()
-feas = Features(id=my_id)
+feas = Features()
 print("init_Features :",init_Features,"ui_dict.get(init_Features) :",ui_dict.get(init_Features))
 print(hasattr(feas, ui_dict.get(init_Features)))
 if hasattr(feas, ui_dict.get(init_Features))is True:
