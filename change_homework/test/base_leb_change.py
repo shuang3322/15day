@@ -25,11 +25,11 @@ my_user = Session.query(base_lab.User_lab).filter_by(name="shuang2").first()
 user_class1 = Session.query(base_lab.Class).filter_by(class_name="python").first()
 user_class = Session.query(base_lab.Class).filter_by(class_name="linux").first()
 #
-# # print(my_user.role_key.role_name)
-# # Session.commit()  # 现此才统一提交，创建数据
-# # class_add1 = base_lab.Class(class_name="python")
-# # class_add2 = base_lab.Class(class_name="linux")
-# # user_add5 = base_lab.User_lab(name="shuang3",password="123456",qq_num="403060464",role_id=2)
+# print(my_user.role_key.role_name)
+# Session.commit()  # 现此才统一提交，创建数据
+# class_add1 = base_lab.Class(class_name="python")
+# class_add2 = base_lab.Class(class_name="linux")
+# user_add5 = base_lab.User_lab(name="shuang3",password="123456",qq_num="403060464",role_id=2)
 my_user.Class = [user_class,user_class1]
 Session.merge(my_user)
 # Session.merge(my_user)
