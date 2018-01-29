@@ -22,7 +22,7 @@ class User_lab(Base):
     qq_num = Column(String(64))
     role_id = Column(Integer, ForeignKey("role.id"))
     role_key = relationship("Role", foreign_keys=[role_id])
-    Class = relationship('Class',secondary=student_m2m_Class,backref='user')
+    Class_name = relationship('Class',secondary=student_m2m_Class,backref='user')
     def __repr__(self):
         return "<User(name='%s',  password='%s')>" % (
             self.name, self.password)
@@ -52,14 +52,17 @@ class Homework(Base):
     __tablename__ = 'homework'  # 表名
     id = Column(Integer, primary_key=True)
     homeworke_name = Column(String(32))
-    Class_id = Column(Integer, ForeignKey("class.id"))
-    class_id_key = relationship("Class", foreign_keys=[Class_id])
+    home_Class_id = Column(Integer, ForeignKey("class.id"))
+    home_Class_key = relationship("Class", foreign_keys=[home_Class_id])
 class Mark(Base):
     '''基础成绩表'''
     __tablename__ = 'mark'  # 表名
     id = Column(Integer, primary_key=True)
-    mark_num= Column(Integer)
+    mark_num = Column(Integer)
     student_id = Column(Integer,ForeignKey("user.id"))
+    student = relationship("User_lab", foreign_keys=[student_id])
     homework_id = Column(Integer,ForeignKey("homework.id"))
+    homework = relationship("Homework", backref="homework")
+
 Base.metadata.create_all(engine)  # 创建表结构
 #

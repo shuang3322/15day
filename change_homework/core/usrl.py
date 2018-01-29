@@ -29,6 +29,7 @@ class UI_dict():#界面
             "Management class" : "Management_class",
             "Add class record" : "Add_class_record",
             "Change the grade" : "Change_the_grade",
+            "Show grade":"Show_grade",
         }
         self.role = role
     def return_role_dict(self):
@@ -55,6 +56,8 @@ class Features():
         self.Session.add(mark_add)
         self.Session.commit()
     def Check_the_grade(self):
+        my_user = self.Session.query(base_lab.Mark).filter_by(student_id=self.id).first()
+        print(my_user.mark_num)
         print("Features:","Check_the_grade")
 
     def Management_class(self):
@@ -64,9 +67,15 @@ class Features():
         print("Features:","Add_class_record")
 
     def Change_the_grade(self):
+        my_user = self.Session.query(base_lab.Mark).filter_by(student_id="None").all()
         print("Features:","Change_the_grade")
 
-test = login("shuang2","123456")
+    def Show_grade(self):
+        my_user = self.Session.query(base_lab.Mark).all()
+        for item in my_user:
+            print(item.user.name,item.homework.homeworke_name,item.mark_num)
+
+test = login("shuang1","123456")
 s,user_id =test.return_levele()
 # print("s",s,type(s))
 ui = UI_dict(s)
