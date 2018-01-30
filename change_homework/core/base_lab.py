@@ -11,7 +11,7 @@ engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkd
 Base = declarative_base() #生成orm基类
 student_m2m_Class = Table('student_m2m_Class', Base.metadata,
                         Column('student_id',Integer,ForeignKey('user.id')),
-                        Column('class_id',Integer,ForeignKey('class.id')),
+                        Column('class_id',Integer,ForeignKey('class_open.id')),
                         )
 class User_lab(Base):
     '''基础用户表'''
@@ -33,7 +33,7 @@ class Role(Base):
     role_name = Column(String(32))
 class Class(Base):
     '''基础班级信息表'''
-    __tablename__ = 'class'  # 表名
+    __tablename__ = 'class_open'  # 表名
     id = Column(Integer, primary_key=True)
     class_name = Column(String(32))
     open_time = Column(Date)
@@ -45,14 +45,14 @@ class Class_record(Base):
     role_name = Column(String(32))
     teacher = Column(String(32))
     schooltime = Column(Date)
-    Class_id = Column(Integer, ForeignKey("class.id"))
+    Class_id = Column(Integer, ForeignKey("class_open.id"))
     class_id_key = relationship("Class", foreign_keys=[Class_id])
 class Homework(Base):
     '''基础班级信息表'''
     __tablename__ = 'homework'  # 表名
     id = Column(Integer, primary_key=True)
     homeworke_name = Column(String(32))
-    home_Class_id = Column(Integer, ForeignKey("class.id"))
+    home_Class_id = Column(Integer, ForeignKey("class_open.id"))
     home_Class_key = relationship("Class", foreign_keys=[home_Class_id])
 class Mark(Base):
     '''基础成绩表'''
