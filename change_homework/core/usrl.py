@@ -56,23 +56,44 @@ class Features():
         self.Session.add(mark_add)
         self.Session.commit()
     def Check_the_grade(self):#查看作业
-        my_user = self.Session.query(base_lab.Mark).filter_by(student_id=self.id).first()
-        print(my_user.mark_num)
-        print("Features:","Check_the_grade")
+        my_user = self.Session.query(base_lab.Mark).filter_by(student_id=self.id).all()
+        for item in my_user:
+            print("NO:%s 名字:%s 作业名:%s 成绩:%s" % (
+                item.id, item.student.name, item.homework.homeworke_name, item.mark_num))
+        # print("Features:","Check_the_grade")
 
     def Management_class(self):
-        print("Features:","Management_class")
+        show_class = self.Session.query(base_lab.Class).all()
+        for item in show_class:
+            print("ID号：\033[1;31;40m ",item.id,"\033[0m 课程名",item.class_name)
+        change_id = input("添加人员课程序号：").strip()
+        print(change_id)
+        show_studer = self.Session.query(base_lab.User_lab).filter_by(role_id="1").all()
+        for item in show_studer:
+            print("ID号:\033[1;34;40m%s\033[0m姓名:%s QQNUM:%s"%(item.id,item.name,item.qq_num))
+        add_class_student_qq_num = input("添加人员qq号：").strip()
+        add_class = self.Session.query(base_lab.Class).filter_by(id=change_id).first()
+        add_student = self.Session.query(base_lab.User_lab).filter_by(qq_num=add_class_student_qq_num).first()
+        add_student.Class_name.append(add_class)
+        self.Session.merge(add_class)
+        self.Session.commit()
+        show_add_class = self.Session.query(base_lab.Class).filter_by(id=change_id).first()
+        print("班级名：" ,show_add_class.class_name)
+        for item in show_add_class.user:
+            print(item.name)
+        # print("Features:","Management_class")
 
     def Add_class_record(self):
+
         print("Features:","Add_class_record")
 
     def Change_the_grade(self):
+        my_user = self.Session.query(base_lab.Mark).all()
         print("Features:","Change_the_grade")
         for item in my_user:
             if item.mark_num == None:
-
-                print("NO:%s 名字:%s 作业名:%s 成绩:%s" % (item.id, item.student.name, item.homework.homeworke_name, item.mark_num))
-
+                print("NO:%s 名字:%s 作业名:%s 成绩:%s" % (
+                    item.id, item.student.name, item.homework.homeworke_name, item.mark_num))
         change_mark_num = int(input("修改成绩序号").strip())
 
         mark_num = self.Session.query(base_lab.Mark).filter_by(id=change_mark_num).first()
@@ -85,7 +106,9 @@ class Features():
     def Show_grade(self):
         my_user = self.Session.query(base_lab.Mark).all()
         for item in my_user:
+            print("NO:%s 名字:%s 作业名:%s 成绩:%s" % (item.id, item.student.name, item.homework.homeworke_name, item.mark_num))
 
+test = login("shuang","123456")
 s,user_id =test.return_levele()
 # print("s",s,type(s))
 ui = UI_dict(s)

@@ -5,14 +5,17 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String,Date,ForeignKey,Table
 from sqlalchemy.orm import relationship,sessionmaker
 
-# engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb?charset=utf8",echo = True)
-engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb?charset=utf8")
+engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb1?charset=utf8",echo = True)
+# engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb1?charset=utf8")
 
 Base = declarative_base() #生成orm基类
+
 student_m2m_Class = Table('student_m2m_Class', Base.metadata,
                         Column('student_id',Integer,ForeignKey('user.id')),
                         Column('class_id',Integer,ForeignKey('class_open.id')),
                         )
+
+
 class User_lab(Base):
     '''基础用户表'''
     __tablename__ = 'user'  # 表名
@@ -23,9 +26,9 @@ class User_lab(Base):
     role_id = Column(Integer, ForeignKey("role.id"))
     role_key = relationship("Role", foreign_keys=[role_id])
     Class_name = relationship('Class',secondary=student_m2m_Class,backref='user')
-    def __repr__(self):
-        return "<User(name='%s',  password='%s')>" % (
-            self.name, self.password)
+    # def __repr__(self):
+    #     return "<User(name='%s',  password='%s')>" % (
+    #         self.name, self.password)
 class Role(Base):
     '''基础角色表'''
     __tablename__ = 'role'  # 表名
@@ -38,6 +41,7 @@ class Class(Base):
     class_name = Column(String(32))
     open_time = Column(Date)
     run_work = Column(String(32))
+
 class Class_record(Base):
     '''上课记录表'''
     __tablename__ = 'Class_record'  # 表名
@@ -63,6 +67,14 @@ class Mark(Base):
     student = relationship("User_lab", foreign_keys=[student_id])
     homework_id = Column(Integer,ForeignKey("homework.id"))
     homework = relationship("Homework", backref="homework")
-
+class Record_log(Base):
+    '''上课日志'''
+    __tablename__ = 'record_log'
+    id = Column(Integer, primary_key=True)
+    record_start = Column(String(32))
+    student_id = Column(Integer,ForeignKey("user.id"))
+    student = relationship("User_lab", foreign_keys=[student_id])
+    homework_id = Column(Integer,ForeignKey("Class_record.id"))
+    homework = relationship("Class_record", backref="Class_record")
 Base.metadata.create_all(engine)  # 创建表结构
 #
