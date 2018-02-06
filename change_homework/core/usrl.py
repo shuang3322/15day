@@ -18,7 +18,7 @@ class login():#账户密码确定
             return my_user.role_key.role_name,my_user.id
         except BaseException as Ever:
             print(Ever)
-            return None
+            return None,None
 class UI_dict():#界面
     def __init__(self,role):
         self.studet_dict={
@@ -30,6 +30,9 @@ class UI_dict():#界面
             "Add class record" : "Add_class_record",
             "Change the grade" : "Change_the_grade",
             "Show grade":"Show_grade",
+            "show class record":"show_class_record",
+            "show student all":"show_student_all",
+            "Add class student record":"Add_class_student_record"
         }
         self.role = role
     def return_role_dict(self):
@@ -84,8 +87,37 @@ class Features():
         # print("Features:","Management_class")
 
     def Add_class_record(self):
-
+        show_class = self.Session.query(base_lab.Class).all()
+        for item in show_class:
+            print("ID号:\033[1;34;40m%s\033[0m班级:%s 周:%s" % (item.id, item.class_name, item.open_time))
+        add_record_id = input("输入添加上课记录班级序号")
+        add_record = base_lab.Class_record(role_name="one day",teacher="shuang",schooltime="2018-2-6",Class_id=add_record_id)
+        self.Session.add(add_record)
+        self.Session.commit()
         print("Features:","Add_class_record")
+
+    def Add_class_student_record(self):
+        self.show_class_record()
+        class_record_id = input("选择上课id").strip()
+        this_class = self.Session.query(base_lab.Class_record).filter_by(id=class_record_id).first()
+        student = self.Session.query(base_lab.Class).filter_by(class_name=this_class.class_id_key.class_name).first()
+        for item in student.user:
+            print("ID:%s | 姓名：%s"%(item.id,item.name))
+        student_ID = input("上课学员").strip()
+        add_record_start = base_lab.Record_log(record_start="到了",student_id=student_ID,class_record=class_record_id)
+        self.Session.add(add_record_start)
+        self.Session.commit()
+    def show_class_record(self):
+        show = self.Session.query(base_lab.Class_record).all()
+        for item in show:
+            print("id:%s |记录名：%s |老师:%s |上课时间：%s |班级：%s "
+                    %(item.id,item.role_name,item.teacher,item.schooltime,item.class_id_key.class_name))
+
+    def show_student_all(self):
+        show = self.Session.query(base_lab.User_lab).filter_by(role_id="1").all()
+        for item in show:
+            print("id:%s 姓名：%s   "
+                  % (item.id, item.name))
 
     def Change_the_grade(self):
         my_user = self.Session.query(base_lab.Mark).all()
@@ -106,11 +138,13 @@ class Features():
     def Show_grade(self):
         my_user = self.Session.query(base_lab.Mark).all()
         for item in my_user:
-            print("NO:%s 名字:%s 作业名:%s 成绩:%s" % (item.id, item.student.name, item.homework.homeworke_name, item.mark_num))
+            print("NO:%s 班级:%s 作业名:%s 成绩:%s" % (item.id, item.student.name, item.homework.homeworke_name, item.mark_num))
+
+
+
 
 test = login("shuang","123456")
 s,user_id =test.return_levele()
-# print("s",s,type(s))
 ui = UI_dict(s)
 ui_dict = ui.return_role_dict()
 for key,item in ui_dict.items():

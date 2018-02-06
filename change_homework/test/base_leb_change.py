@@ -22,20 +22,22 @@ Session = Session_class()  # 生成session实例
 # for item in show_studer_all:
 #     print("ID号:\033[0;34;40m%s\033[0m 姓名:\033[0;34;40m%s\033[0m QQNUM:\033[0;34;40m%s\033[0m"%(item.id,item.name,item.qq_num))
 '''新增人员信息和'''
-role_add1 = base_lab.Role(role_name="老师")
-role_add2 = base_lab.Role(role_name="学生")
-role_add3 = base_lab.Role(role_name="管理员")
-Session.add_all([role_add2,role_add1,role_add3])  # 把要创建的数据对象添加到这个session里， 一会统一创建
-Session.commit()
-studet = Session.query(base_lab.Role).filter_by(role_name="学生").first()
-teacher = Session.query(base_lab.Role).filter_by(role_name="老师").first()
-user_add1 = base_lab.User_lab(name="shuang",password="123456",qq_num="403060467",role_id=teacher.id)
-user_add2 = base_lab.User_lab(name="shuang1",password="123456",qq_num="403060461",role_id=studet.id)
-user_add3 = base_lab.User_lab(name="shuang2",password="123456",qq_num="403060462",role_id=studet.id)
-user_add4 = base_lab.User_lab(name="shuang3",password="123456",qq_num="403060463",role_id=studet.id)
-user_add5 = base_lab.User_lab(name="shuang4",password="123456",qq_num="403060464",role_id=studet.id)
-Session.add_all([user_add1,user_add2,user_add3,user_add4,user_add5])  # 把要创建的数据对象添加到这个session里， 一会统一创建
-Session.commit()  # 现此才统一提交，创建数据
+# role_add1 = base_lab.Role(role_name="老师")
+# role_add2 = base_lab.Role(role_name="学生")
+# role_add3 = base_lab.Role(role_name="管理员")
+# Session.add_all([role_add2,role_add1,role_add3])  # 把要创建的数据对象添加到这个session里， 一会统一创建
+# Session.commit()
+# studet = Session.query(base_lab.Role).filter_by(role_name="学生").first()
+# teacher = Session.query(base_lab.Role).filter_by(role_name="老师").first()
+# studet_id = studet.id
+# teacher_id = teacher.id
+# user_add1 = base_lab.User_lab(name="shuang",password="123456",qq_num="403060467",role_id=teacher_id)
+# user_add2 = base_lab.User_lab(name="shuang1",password="123456",qq_num="403060461",role_id=studet_id)
+# user_add3 = base_lab.User_lab(name="shuang2",password="123456",qq_num="403060462",role_id=studet_id)
+# user_add4 = base_lab.User_lab(name="shuang3",password="123456",qq_num="403060463",role_id=studet_id)
+# user_add5 = base_lab.User_lab(name="shuang4",password="123456",qq_num="403060464",role_id=studet_id)
+# Session.add_all([user_add1,user_add2,user_add3,user_add4,user_add5])  # 把要创建的数据对象添加到这个session里， 一会统一创建
+# Session.commit()  # 现此才统一提交，创建数据
 ''' 人员并关联已有课程'''
 # user_class1 = Session.query(base_lab.Class).filter_by(class_name="python").first()
 # user_class = Session.query(base_lab.Class).filter_by(class_name="linux").first()
@@ -53,7 +55,7 @@ Session.commit()  # 现此才统一提交，创建数据
 ''' 新增人员关联并新增课程'''
 # class_add1 = base_lab.Class(class_name="python",open_time="2018-1-29",run_work="36周")
 # class_add2 = base_lab.Class(class_name="linux",open_time="2018-1-27",run_work="36周")
-# user_add5 = base_lab.User_lab(name="shuang9",password="123456",qq_num="403060464",role_id=1)
+# user_add5 = base_lab.User_lab(name="shuang9",password="123456",qq_num="403060465",role_id=1)
 # user_add5.Class_name = [class_add1,class_add2]
 # Session.add(user_add5)
 # Session.commit()
@@ -80,3 +82,7 @@ Session.commit()  # 现此才统一提交，创建数据
 # Session.merge(my_user)
 # Session.merge(my_user)#煞星
 # Session.commit()#数据提交
+
+#
+# my_user = Session.query(base_lab.User_lab).filter_by(name="shuang").first()
+# print(my_user)

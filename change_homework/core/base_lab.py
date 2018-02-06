@@ -5,8 +5,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String,Date,ForeignKey,Table
 from sqlalchemy.orm import relationship,sessionmaker
 
-engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb?charset=utf8",echo = True)
-# engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb1?charset=utf8")
+# engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb?charset=utf8",echo = True)
+engine = create_engine("mysql+pymysql://shuang:123456@10.77.100.9:3306/homeworkdb?charset=utf8")
 
 Base = declarative_base() #生成orm基类
 
@@ -74,7 +74,7 @@ class Record_log(Base):
     record_start = Column(String(32))
     student_id = Column(Integer,ForeignKey("user.id"))
     student = relationship("User_lab", foreign_keys=[student_id])
-    homework_id = Column(Integer,ForeignKey("Class_record.id"))
-    homework = relationship("Class_record", backref="Class_record")
+    class_record = Column(Integer,ForeignKey("Class_record.id"))
+    record = relationship("Class_record", foreign_keys=[class_record])
 Base.metadata.create_all(engine)  # 创建表结构
 #
